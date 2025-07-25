@@ -21,6 +21,7 @@ from tenacity import (
 from app.config import LLMSettings, config
 from app.exceptions import TokenLimitExceeded
 from app.llm.bedrock import BedrockClient
+from app.llm.ollama import OllamaClient
 from app.logger import logger  # Assuming a logger is set up in your app
 from app.schema import (
     ROLE_VALUES,
@@ -228,6 +229,8 @@ class LLM:
                 )
             elif self.api_type == "aws":
                 self.client = BedrockClient()
+            elif self.api_type == "ollama":
+                self.client = OllamaClient(api_key=self.api_key, base_url=self.base_url)
             else:
                 self.client = AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)
 
